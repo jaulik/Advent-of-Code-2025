@@ -1,7 +1,9 @@
 package cz.aoc;
 
+import cz.aoc.day01.Day01;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Day01.main(args);
     }
 }
