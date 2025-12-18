@@ -7,12 +7,11 @@ public class Day01 {
     public static void main(String[] args) {
         List<String> input = readLines("day01");
 
-        System.out.println(input.size());
         int password = solveFirstPuzzle(input);
-        System.out.println("Password is: " + password);
+        System.out.println("First part - the password is: " + password);
 
         password = solveSecondPuzzle(input);
-        System.out.println("Password is: " + password);
+        System.out.println("Second part - the password is: " + password);
     }
 
     public static int solveFirstPuzzle(List<String> rotations) {
