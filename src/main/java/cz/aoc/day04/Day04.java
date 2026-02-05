@@ -18,8 +18,8 @@ public class Day04 {
         int cols = rollsGrid[0].length;
 
         int count = 0;
-        for (int i = 0; i < rollsGrid.length; i++) {
-            for (int j = 0; j < rollsGrid[0].length; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 if (rollsGrid[i][j] == '@') {
                     if (countNeighbors(rollsGrid, rows, cols, i, j) < 4) count++;
                 }
@@ -38,8 +38,8 @@ public class Day04 {
         while (count != 0) {
             count = 0;
 
-            for (int i = 0; i < rollsGrid.length; i++) {
-                for (int j = 0; j < rollsGrid[0].length; j++) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
                     if (rollsGrid[i][j] == '@') {
                         if (countNeighbors(rollsGrid, rows, cols, i, j) < 4) {
                             count++;
