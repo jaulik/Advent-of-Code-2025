@@ -64,7 +64,7 @@ public class Day05 {
         return count;
     }
 
-    public static InventoryData processInput() {
+    private static InventoryData processInput() {
         List<String> freshRanges = new ArrayList<>();
         List<String> available = new ArrayList<>();
 
