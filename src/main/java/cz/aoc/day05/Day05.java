@@ -13,6 +13,7 @@ public class Day05 {
         InventoryData inventoryData = processInput();
 
         System.out.println("Total available fresh ingredients: " + solveFirstPuzzle(inventoryData));
+        System.out.println("Total considered fresh ingredients: " + solveSecondPuzzle(inventoryData));
 
     }
 
@@ -32,6 +33,34 @@ public class Day05 {
             }
             if (isFresh) count++;
         }
+        return count;
+    }
+
+    public static long solveSecondPuzzle(InventoryData inventoryData) {
+        List<Long[]> freshRangesSorted = inventoryData.getFreshRanges().stream()
+                .sorted(((r1, r2) -> {
+            long start1 = r1[0];
+            long start2 = r2[0];
+            return Long.compare(start1, start2);
+                })).toList();
+
+        long count = 0;
+        long currentStart = freshRangesSorted.getFirst()[0];
+        long currentEnd = freshRangesSorted.getFirst()[1];
+        for (int i = 1; i < freshRangesSorted.size(); i++) {
+            long nextStart = freshRangesSorted.get(i)[0];
+            long nextEnd = freshRangesSorted.get(i)[1];
+
+            if (nextStart <= currentEnd) {
+                currentEnd = Math.max(nextEnd, currentEnd);
+            } else {
+                count += (currentEnd - currentStart + 1);
+                currentStart = nextStart;
+                currentEnd = nextEnd;
+            }
+        }
+        // add the last range
+        count += (currentEnd - currentStart + 1);
         return count;
     }
 
