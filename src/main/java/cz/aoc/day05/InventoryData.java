@@ -16,7 +16,7 @@ public class InventoryData {
     private final List<String> available;
     /**
      * Constructs an {@code InventoryData} instance by parsing the raw input lists.
-     * * @param freshRanges A list of strings representing inclusive ranges of fresh
+     * @param freshRanges A list of strings representing inclusive ranges of fresh
      * ingredient IDs (e.g., "3-5", "10-14").
      * @param available   A list of strings representing the IDs of available
      * ingredients in the inventory.
@@ -26,10 +26,13 @@ public class InventoryData {
         this.available = available;
     }
     /**
-     * Parses the list of range strings and expands them into a set of individual IDs.
+     * Parses the list of range strings into a list of boundary arrays.
      * <p>
-     * * @param freshRanges A list of range strings (e.g., "3-5").
-     * @return A {@link Set} containing all individual fresh ingredient IDs.
+     * Each string (e.g., "3-5") is converted into a {@code Long[]} where index 0
+     * is the starting boundary and index 1 is the ending boundary.
+     *
+     * @param freshRanges A list of range strings (e.g., "3-5").
+     * @return A {@link List} of {@code Long[]} containing the start and end bounds of each range.
      */
     private List<Long[]> getFreshRangesList(List<String> freshRanges) {
         List<Long[]> freshRangesList = new ArrayList<>();
@@ -44,14 +47,16 @@ public class InventoryData {
     }
     /**
      * Gets the list of available ingredient IDs that need to be checked.
-     * * @return A list of available ingredient IDs as strings.
+     *
+     * @return A list of available ingredient IDs as strings.
      */
     public List<String> getAvailable() {
         return available;
     }
     /**
-     * Gets the complete, expanded set of fresh ingredient IDs.
-     * * @return A {@link Set} containing every valid, fresh ingredient ID.
+     * Gets the list of fresh ingredient range boundaries.
+     *
+     * @return A {@link List} of {@code Long[]} where each array holds the [start, end] bounds of a fresh range.
      */
     public List<Long[]> getFreshRanges() {
         return freshRanges;
