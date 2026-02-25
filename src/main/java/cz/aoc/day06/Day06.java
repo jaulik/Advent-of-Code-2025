@@ -13,27 +13,57 @@ public class Day06 {
         String[] operators = worksheet.removeLast().split("\\s+");
 
         System.out.println("The grand total is: " + solveFirstPuzzle(operators, worksheet));
-
+        System.out.println("The new grand total is: " + solveSecondPuzzle(operators, worksheet));
     }
 
     public static long solveFirstPuzzle(String[] operators, List<String> numbers) {
         List<Long[]> numsParsed = getParsedNumbers(numbers);
         int cols = operators.length;
-        int rows = numsParsed.size();
 
         long totalResult = 0;
         for (int i = 0; i < cols; i++) {
-            long currentResult = numsParsed.getFirst()[i];
-            for (int j = 1; j < rows; j++) {
-                if (operators[i].equals("+")) currentResult += numsParsed.get(j)[i];
-                else currentResult *= numsParsed.get(j)[i];
+            long currentResult = operators[i].equals("+") ? 0 : 1;
+
+            for (Long[] nums : numsParsed) {
+                if (operators[i].equals("+")) currentResult += nums[i];
+                else currentResult *= nums[i];
             }
             totalResult += currentResult;
         }
         return totalResult;
     }
 
-    public static List<Long[]> getParsedNumbers(List<String> numbersList) {
+    public static long solveSecondPuzzle(String[] operators, List<String> numbers) {
+        int rows = numbers.size();
+        int maxLen = numbers.stream().mapToInt(String::length).max().orElse(0);
+        // Pad all strings to the same length with spaces to avoid IndexOutOfBounds
+        List<String> numsPadded = getNumbersPadded(numbers, maxLen);
+
+        int numIndex = 0;
+        long totalResult = 0;
+        for (String operator : operators) {
+            long currentResult = operator.equals("+") ? 0 : 1;
+
+            StringBuilder sb = new StringBuilder().append(" ");
+            while (!sb.isEmpty() && numIndex < maxLen) {
+                sb.delete(0, sb.length());
+                for (int j = 0; j < rows; j++) {
+                    char currChar = numsPadded.get(j).charAt(numIndex);
+                    if (currChar != ' ') sb.append(currChar);
+                }
+                if (!sb.isEmpty()) {
+                    long currNum = Long.parseLong(sb.toString());
+                    if (operator.equals("+")) currentResult += currNum;
+                    else currentResult *= currNum;
+                }
+                numIndex++;
+            }
+            totalResult += currentResult;
+        }
+        return totalResult;
+    }
+
+    private static List<Long[]> getParsedNumbers(List<String> numbersList) {
         List<Long[]> numsParsed = new ArrayList<>();
         for (String numbers : numbersList) {
             String[] numbersSplit = numbers.trim().split("\\s+");
@@ -42,5 +72,14 @@ public class Day06 {
                     .toArray(Long[]::new));
         }
         return numsParsed;
+    }
+
+    private static List<String> getNumbersPadded(List<String> numbersList, int maxLen) {
+        List<String> numbersPadded = new ArrayList<>();
+        for (String numbers : numbersList) {
+            int currentLen = numbers.length();
+            numbersPadded.add(numbers + " ".repeat(maxLen - currentLen));
+        }
+        return numbersPadded;
     }
 }
