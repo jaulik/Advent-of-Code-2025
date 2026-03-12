@@ -1,9 +1,6 @@
 package cz.aoc.day10;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 import static cz.aoc.utils.InputUtils.readLines;
 
@@ -14,7 +11,6 @@ public class Day10 {
         System.out.println("The fewest button presses required to" +
                 " configure the lights on all of the machines is: " + solveFirstPuzzle(lines));
     }
-
 
     public static int solveFirstPuzzle(List<String> lines) {
         return lines.stream()
@@ -95,5 +91,13 @@ public class Day10 {
             buttons.add(buttonMask);
         }
         return buttons;
+    }
+    // helper method for Part 2
+    private static int[] parseTargetJoltage(String joltage) {        
+        return Arrays.stream(joltage
+                        .substring(1, joltage.length() - 1)
+                        .split(","))
+                .mapToInt(Integer::parseInt)
+                .toArray();
     }
 }
